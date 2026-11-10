@@ -103,7 +103,19 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   font-size: 0.875rem;
   line-height: 1.5;
   overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  --rain-opacity: 0.22;
 }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .decision { --rain-opacity: 0.3; }
+}
+:root[data-theme="dark"] .decision { --rain-opacity: 0.3; }
+.decision .rain {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 0; opacity: var(--rain-opacity); pointer-events: none;
+}
+.decision > *:not(.rain) { position: relative; z-index: 1; }
 .decision-head { padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); color: var(--muted); }
 .decision-head strong { color: var(--ink); font-weight: 500; }
 .decision dl { margin: 0; padding: 0.5rem 1.25rem; }
@@ -218,6 +230,7 @@ section.block { padding: 4rem 0; border-top: 1px solid var(--line); }
       </div>
 
       <div class="decision" id="decision" aria-label="Access evaluation for Daniel Opara">
+        <canvas class="rain" aria-hidden="true"></canvas>
         <div class="decision-head">Evaluating access for <strong>Daniel Opara</strong> → your IAM team</div>
         <dl>
           <div class="row"><span class="tick" aria-hidden="true">✓</span><dt>Platforms</dt><dd>Okta, Entra ID, Active Directory, Delinea</dd></div>
@@ -245,37 +258,43 @@ section.block { padding: 4rem 0; border-top: 1px solid var(--line); }
       <h2>Experience</h2>
       <ol class="timeline">
         <li>
-          <p class="job-title">IT Engineer (IAM)</p>
+          <p class="job-title">IT/IAM Analyst</p>
           <p class="job-org">PCtronics Managed IT Services, Riverside, CA · Nov 2025 – Present</p>
           <ul>
-            <li>Automate joiner, mover, and leaver lifecycles across Microsoft Entra ID and Active Directory to enforce least privilege.</li>
-            <li>Maintain hybrid identity with Entra Connect and SCIM, scripting directory tasks and group standards in PowerShell.</li>
-            <li>Enforce Conditional Access and MFA to NIST SP 800-53 guidelines, and run PCI DSS access reviews with RBAC that prevents segregation-of-duties conflicts.</li>
+            <li>Automated joiner, mover, and leaver workflows across Microsoft Entra ID and Active Directory, cutting manual provisioning effort by 90% while keeping access aligned to least privilege.</li>
+            <li>Administered Okta Universal Directory, group rules, and application assignments, managing user profiles and access across client environments.</li>
+            <li>Configured Okta authentication and sign-on policies with Okta Verify adaptive MFA, and investigated authentication anomalies using the Okta System Log.</li>
+            <li>Rolled out Conditional Access and MFA across cloud and on-premises systems in line with NIST SP 800-53, bringing MFA coverage to 90% of accounts.</li>
+            <li>Led recurring access reviews and entitlement audits for PCI DSS, using RBAC to eliminate segregation-of-duties conflicts and remediating 85% of flagged findings within the review cycle.</li>
           </ul>
         </li>
         <li>
           <p class="job-title">Cybersecurity Engineer (IAM/PAM)</p>
           <p class="job-org">GuidePoint Security, Herndon, VA · Jan 2025 – Mar 2025</p>
           <ul>
-            <li>Administered Delinea PAM for privileged accounts, just-in-time access, and session recording.</li>
-            <li>Built SSO integrations between Active Directory, Microsoft Azure, and Google Workspace using SAML 2.0, OAuth 2.0, and OIDC.</li>
-            <li>Detected and remediated compromised accounts with Okta Identity Threat Protection.</li>
+            <li>Troubleshot Okta SSO, SCIM provisioning, and AD agent sync issues, tracing failures through the Okta System Log to resolve identity lifecycle incidents for enterprise clients.</li>
+            <li>Implemented Okta Identity Threat Protection for behavioral login analysis, detecting and remediating compromised accounts.</li>
+            <li>Strengthened privileged identity security by deploying Delinea PAM capabilities, including just-in-time access, password vaulting, and session recording, for 2,000+ privileged accounts, achieving 100% audit compliance.</li>
+            <li>Architected and engineered enterprise-scale IAM/PAM ecosystems across Okta, Microsoft Entra ID, and Delinea, securing 10,000+ digital identities and establishing Zero Trust, RBAC, and ISO 27001-aligned access governance.</li>
+            <li>Led the architecture and integration of 10+ enterprise applications in Okta using SAML 2.0, OIDC, and OAuth 2.0, delivering secure SSO and adaptive MFA across SaaS platforms.</li>
           </ul>
         </li>
         <li>
           <p class="job-title">IT Implementation Engineer</p>
           <p class="job-org">Acorn Technology Services, Riverside, CA · Dec 2023 – Jul 2024</p>
           <ul>
-            <li>Audited role assignments across Active Directory and Entra ID, removed orphaned accounts, and refined ABAC rules.</li>
-            <li>Automated bulk user updates and group membership management with PowerShell.</li>
+            <li>Administered Active Directory and identity services supporting 1,000+ users, strengthening access governance and automating identity lifecycle processes.</li>
+            <li>Engineered PowerShell-based identity automation for Active Directory provisioning, deprovisioning, and group management, reducing access-processing time by 95%.</li>
+            <li>Owned L1 IAM incident resolution through ITGlue, managing 50+ monthly authentication, SSO, provisioning, and directory synchronization incidents while maintaining a 98% SLA resolution rate.</li>
           </ul>
         </li>
         <li>
           <p class="job-title">Cybersecurity Assistant</p>
           <p class="job-org">Riverside City College, Riverside, CA · Feb 2022 – Jul 2023</p>
           <ul>
-            <li>Managed the Active Directory account lifecycle and ran regular access reviews.</li>
-            <li>Trained staff on IAM best practices and security protocols.</li>
+            <li>Owned Active Directory account lifecycle and access reviews, reducing excess access by 90%.</li>
+            <li>Led system audits and access reviews, improving identity and access compliance by 15%.</li>
+            <li>Led IAM and security training for staff, driving a 20% reduction in security incidents.</li>
           </ul>
         </li>
       </ol>
@@ -287,39 +306,39 @@ section.block { padding: 4rem 0; border-top: 1px solid var(--line); }
       <h2>Projects</h2>
       <div class="projects">
         <article class="project">
-          <h3>DanotechInc Entra IAM Program</h3>
-          <p>An enterprise IAM program built on Microsoft Entra ID for a fictional company.</p>
-          <ul class="stack"><li>Entra ID</li><li>Python</li></ul>
+          <h3>DanotechInc Entra ID IAM Program</h3>
+          <p>A 19-phase, enterprise-style IAM program on Microsoft Entra ID for a fictional 200-person SaaS company, fixing 11 SOC 2 identity findings using a real 200-person HR dataset. Delivered so far: governance, FIDO2 break-glass accounts, tenant hardening, Conditional Access baselines, certificate-based Graph automation, and break-glass sign-in alerting.</p>
+          <ul class="stack"><li>Entra ID</li><li>Python</li><li>PowerShell</li><li>Microsoft Graph</li><li>Okta</li><li>SAML 2.0</li><li>OIDC</li><li>OAuth 2.0</li><li>SCIM</li><li>Conditional Access</li><li>FIDO2 passkeys</li><li>RBAC</li><li>KQL</li><li>Azure Log Analytics</li><li>Azure App Service</li><li>GitHub Actions</li></ul>
           <a href="https://github.com/twitchy-fingers/danotechinc-entra-iam">View on GitHub</a>
         </article>
         <article class="project">
           <h3>Active Directory Lifecycle Management Lab</h3>
           <p>Joiner, mover, and leaver automation with compliance-mapped access control.</p>
-          <ul class="stack"><li>Active Directory</li><li>PowerShell</li><li>RBAC</li></ul>
+          <ul class="stack"><li>Active Directory</li><li>PowerShell</li><li>Joiner/mover/leaver</li><li>Identity lifecycle automation</li><li>RBAC</li><li>Least privilege</li><li>Group management</li><li>Compliance mapping</li></ul>
           <a href="https://github.com/twitchy-fingers/Active-Directory-Lifecycle-Management-Lab">View on GitHub</a>
         </article>
         <article class="project">
           <h3>Okta Org2Org Federation Across Regions</h3>
           <p>Federated two Okta tenants with Org2Org SAML for a company that keeps US and European tenants separate for data sovereignty. Configured the spoke app, exchanged metadata, established trust in the hub, and tested SSO and attribute flows.</p>
-          <ul class="stack"><li>Okta</li><li>Org2Org</li><li>SAML 2.0</li><li>Hub and spoke</li></ul>
+          <ul class="stack"><li>Okta</li><li>Org2Org</li><li>SAML 2.0</li><li>Hub-and-spoke federation</li><li>Multi-tenant identity</li><li>App Integration Wizard</li><li>Metadata exchange</li><li>Attribute mapping</li><li>Data sovereignty</li></ul>
           <a href="https://medium.com/@dannyopara/okta-org2org-integration-using-aiw-46bb7a4b7192">Read on Medium</a>
         </article>
         <article class="project">
           <h3>Okta and Salesforce SAML SSO</h3>
           <p>Integrated Salesforce with Okta using SAML 2.0 so users sign in to Salesforce through Okta.</p>
-          <ul class="stack"><li>Okta</li><li>Salesforce</li><li>SAML 2.0</li><li>SSO</li></ul>
+          <ul class="stack"><li>Okta</li><li>Salesforce</li><li>SAML 2.0</li><li>Single sign-on</li><li>SAML assertions</li><li>X.509 certificates</li><li>NameID mapping</li><li>App assignment</li><li>SaaS integration</li></ul>
           <a href="https://medium.com/@dannyopara">Read on Medium</a>
         </article>
         <article class="project">
           <h3>Okta Lab Environment</h3>
           <p>Built a full Okta lab environment while preparing for the Okta Certified Professional exam, and documented it step by step.</p>
-          <ul class="stack"><li>Okta</li><li>Lifecycle management</li><li>Policies</li></ul>
+          <ul class="stack"><li>Okta</li><li>Universal Directory</li><li>Groups and group rules</li><li>Sign-on policies</li><li>MFA</li><li>Lifecycle management</li><li>Technical documentation</li></ul>
           <a href="https://medium.com/@dannyopara">Read on Medium</a>
         </article>
         <article class="project">
           <h3>Continuous Authentication in a Zero Trust Environment</h3>
           <p>GuidePoint Security capstone project implementing continuous authentication in a zero trust environment using Zscaler and Okta.</p>
-          <ul class="stack"><li>Okta</li><li>Zscaler</li><li>Zero Trust</li><li>Continuous authentication</li></ul>
+          <ul class="stack"><li>Okta</li><li>Zscaler</li><li>Zero Trust architecture</li><li>Continuous authentication</li><li>Risk-based access</li><li>Adaptive MFA</li><li>Technical presentation</li></ul>
           <a href="https://www.youtube.com/watch?v=oR90HkZEpWg">Watch the capstone presentation</a>
         </article>
       </div>
@@ -376,7 +395,7 @@ section.block { padding: 4rem 0; border-top: 1px solid var(--line); }
     <div class="wrap block-grid">
       <h2>Contact</h2>
       <div class="prose">
-        <p>I’m always open to talk identity. Email is the fastest way to reach me.</p>
+        <p>I’m open to IAM engineering roles and always glad to talk identity. Email is the fastest way to reach me.</p>
         <div class="contact-links">
           <a class="btn btn-primary" href="mailto:dannyopara@gmail.com">Email me</a>
           <a class="btn btn-secondary" href="https://www.linkedin.com/in/nielopara">LinkedIn</a>
@@ -398,6 +417,76 @@ section.block { padding: 4rem 0; border-top: 1px solid var(--line); }
   if (!el) return;
   document.documentElement.classList.add('js');
   requestAnimationFrame(function () { el.classList.add('run'); });
+})();
+
+/* Matrix-style digital rain behind the access evaluation card */
+(function () {
+  var card = document.getElementById('decision');
+  var canvas = card && card.querySelector('.rain');
+  if (!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var glyphs = '\uFF71\uFF72\uFF73\uFF74\uFF75\uFF76\uFF77\uFF78\uFF79\uFF7A\uFF7B\uFF7C\uFF7D\uFF7E\uFF7F\uFF80\uFF81\uFF82\uFF83\uFF84\uFF85\uFF86\uFF87\uFF88\uFF89\uFF8A\uFF8B\uFF8C\uFF8D\uFF8E\uFF8F\uFF90\uFF91\uFF92\uFF93\uFF94\uFF95\uFF96\uFF97\uFF98\uFF99\uFF9A\uFF9B\uFF9C\uFF9D0123456789';
+  var size = 14, cols = 0, drops = [], w = 0, h = 0;
+  var accent = '#0E6E62', surface = '#FFFFFF';
+  var raf = null, last = 0, onScreen = true;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function readColors() {
+    var s = getComputedStyle(document.documentElement);
+    accent = s.getPropertyValue('--accent').trim() || accent;
+    surface = s.getPropertyValue('--surface').trim() || surface;
+  }
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = card.clientWidth; h = card.clientHeight;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(w / size);
+    drops = [];
+    for (var i = 0; i < cols; i++) drops[i] = -Math.random() * (h / size);
+    ctx.globalAlpha = 1; ctx.fillStyle = surface; ctx.fillRect(0, 0, w, h);
+  }
+  function step() {
+    ctx.globalAlpha = 0.12; ctx.fillStyle = surface; ctx.fillRect(0, 0, w, h);
+    ctx.globalAlpha = 1; ctx.fillStyle = accent;
+    ctx.font = size + 'px "IBM Plex Mono", ui-monospace, monospace';
+    for (var i = 0; i < cols; i++) {
+      var y = drops[i] * size;
+      if (y > 0) ctx.fillText(glyphs.charAt(Math.floor(Math.random() * glyphs.length)), i * size, y);
+      if (y > h && Math.random() > 0.975) drops[i] = 0;
+      drops[i] += 1;
+    }
+  }
+  function loop(t) {
+    raf = requestAnimationFrame(loop);
+    if (t - last < 60) return;
+    last = t; step();
+  }
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+  function start() {
+    if (raf || reduce.matches || !onScreen || document.hidden) return;
+    raf = requestAnimationFrame(loop);
+  }
+  function reset() {
+    stop(); readColors(); resize();
+    if (reduce.matches) { for (var k = 0; k < 45; k++) step(); }
+    else start();
+  }
+
+  if ('ResizeObserver' in window) new ResizeObserver(function () { reset(); }).observe(card);
+  else window.addEventListener('resize', reset);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      onScreen = entries[0].isIntersecting;
+      if (onScreen) start(); else stop();
+    }).observe(card);
+  }
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else start(); });
+  var scheme = window.matchMedia('(prefers-color-scheme: dark)');
+  var onChange = function () { reset(); };
+  if (scheme.addEventListener) { scheme.addEventListener('change', onChange); reduce.addEventListener('change', onChange); }
+  new MutationObserver(onChange).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  reset();
 })();
 </script>
 </body>
